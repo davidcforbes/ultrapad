@@ -14,7 +14,7 @@
 
     <Grid x:Name="ParagraphGrid" BorderBrush="{ThemeResource RibbonColumnBorder}"
       BorderThickness="0,0,0,0"
-      Padding="12"
+      Padding="4"
       Grid.Column="2">
 
         <Grid.RowDefinitions>

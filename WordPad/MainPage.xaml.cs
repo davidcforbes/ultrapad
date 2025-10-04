@@ -51,8 +51,8 @@ using Windows.UI.Core;
 using Windows.UI.Xaml.Input;
 using Windows.ApplicationModel.DataTransfer;
 
-// RectifyPad made by Lixkote with help of some others for Rectify11.
-// Main page c# source code.
+// UltraPad made by Lixkote 
+// Main page c# source code
 
 namespace RectifyPad
 {
@@ -66,7 +66,7 @@ namespace RectifyPad
         public bool _wasOpen = false;
 
         public StorageFile RichEditFile;
-        private string appTitleStr => "RectifyPad";
+        private string appTitleStr => "UltraPad";
 
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
@@ -1869,7 +1869,7 @@ namespace RectifyPad
 
         private void Editor_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            TextRuler.Width = Editor.Width;
+            RulerBorder.Width = Editor.Width;
         }
 
         private async void PrintPreviewPrintButton_Click(object sender, RoutedEventArgs e)
@@ -1961,6 +1961,17 @@ namespace RectifyPad
             }
             return end;
         }
+
+        private void ShadowRect_Loaded(object sender, RoutedEventArgs e)
+        {
+            shadow.Receivers.Add(DocTree);
+        }
+
+        private void ShadowRectR_Loaded(object sender, RoutedEventArgs e)
+        {
+            shadow.Receivers.Add(TextRuler);
+        }
+
 
         private bool IsPunctuation(char c)
         {

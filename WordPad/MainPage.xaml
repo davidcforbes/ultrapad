@@ -34,8 +34,9 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="48*"/>
+            <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="181*"/>
+            <ColumnDefinition Width="44"/>
         </Grid.ColumnDefinitions>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="LayoutVisualStates">
@@ -231,14 +232,14 @@
             <RowDefinition Height="12" />
             <RowDefinition Height="20"/>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="130" />
+            <RowDefinition Height="110" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
 
         </Grid.RowDefinitions>
 
         <Grid x:Name="AppTitleBar"
-              Background="Transparent" Grid.RowSpan="2" Grid.ColumnSpan="2">
+              Background="Transparent" Grid.RowSpan="2" Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="8" />
                 <ColumnDefinition Width="Auto" />
@@ -254,12 +255,12 @@
                        x:Uid="apptitle"
                        Style="{StaticResource CaptionTextBlockStyle}"
                        VerticalAlignment="Center"
-                       Grid.Column="3" Text="Document - RectifyPad"/>
+                       Grid.Column="3" Text="Document - UltraPad"/>
         </Grid>
 
         <StackPanel x:Name="MenuStack"
-                    Grid.Row="2"
-                    Orientation="Horizontal" Grid.ColumnSpan="2">
+                    Grid.Row="2" Grid.ColumnSpan="3"
+                    Orientation="Horizontal">
             <muxc:MenuBar>
                 <muxc:MenuBarItem Title="File" x:Uid="filemenuitem" x:Name="FileMenuRoot">
                     <MenuFlyoutItem Text="New" Click="NewDoc_Click" x:Uid="new">
@@ -434,16 +435,13 @@
                 </Button.KeyboardAccelerators>
             </Button>
         </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Left" Grid.Column="1" Margin="1046,0,0,0">
-            <Button x:Name="SettingsButton" Style="{StaticResource MenuButton}"
+        <Button x:Name="SettingsButton" Style="{StaticResource MenuButton}"
         Content="&#xE115;"
                                                                    FontFamily="{StaticResource SegoeFluentIcons}"
                     x:Uid="toolbarsetbutton"
         ToolTipService.Placement="Bottom"
-        Grid.Row="2"
-        Click="SettingsButton_Click" Margin="0,0,8,0" HorizontalAlignment="Right" />
-        </StackPanel>
+        Grid.Row="2" Grid.Column="3"
+        Click="SettingsButton_Click" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         <Grid x:Name="PrintPreviewRibbon"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
             Background="{ThemeResource LayerFillColorDefaultBrush}"
@@ -634,7 +632,8 @@ Height="40" VerticalAlignment="Top" Margin="0,10,0,0" Click="closeprintpreviewcl
               BorderBrush="{ThemeResource CardStrokeColorDefaultSolidBrush}"
               BorderThickness="0,1"
               Padding="4"
-              Grid.Row="3" DataContext="{x:Bind}" Height="130" Grid.ColumnSpan="2">
+              Grid.Column="0"
+              Grid.Row="3" DataContext="{x:Bind}" Height="110" Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -645,7 +644,7 @@ Height="40" VerticalAlignment="Top" Margin="0,10,0,0" Click="closeprintpreviewcl
                 <ColumnDefinition Width="0" />
             </Grid.ColumnDefinitions>
 
-            <Border x:Name="Fullfonttoolbar" Height="120" Width="430" Grid.Column="1" BorderThickness="0,0,1,0" BorderBrush="{ThemeResource RibbonColumnBorder}">
+            <Border x:Name="Fullfonttoolbar" Height="100" Width="430" Grid.Column="1" BorderThickness="0,0,1,0" BorderBrush="{ThemeResource RibbonColumnBorder}">
                 <Custom:FontToolbar x:Name="fontribbontoolbar" />
             </Border>
             <Grid x:Name="Collfonttoolbar" Grid.Column="1"  Visibility="Collapsed" BorderBrush="{ThemeResource RibbonColumnBorder}"
@@ -695,7 +694,7 @@ Height="40" VerticalAlignment="Top" Margin="0,10,0,0" Click="closeprintpreviewcl
                 </Grid.Children>
             </Grid>
 
-            <Border x:Name="Fullparatoolbar" Height="120" Width="264" Grid.Column="2" BorderThickness="0,0,1,0" BorderBrush="{ThemeResource RibbonColumnBorder}">
+            <Border x:Name="Fullparatoolbar" Height="100" Width="264" Grid.Column="2" BorderThickness="0,0,1,0" BorderBrush="{ThemeResource RibbonColumnBorder}">
                 <Custom:ParagraphToolbar x:Name="pararibbontoolbar" />
             </Border>
             <Grid x:Name="Collparatoolbar" Grid.Column="2" Visibility="Collapsed" BorderBrush="{ThemeResource RibbonColumnBorder}"
@@ -745,7 +744,7 @@ Height="40" VerticalAlignment="Top" Margin="0,10,0,0" Click="closeprintpreviewcl
                 </Grid.Children>
             </Grid>
 
-            <Border x:Name="Fullinserttoolbar" Height="120" Width="180" Grid.Column="3" BorderThickness="0,0,1,0" BorderBrush="{ThemeResource RibbonColumnBorder}">
+            <Border x:Name="Fullinserttoolbar" Height="100" Width="180" Grid.Column="3" BorderThickness="0,0,1,0" BorderBrush="{ThemeResource RibbonColumnBorder}">
                 <Custom:InsertToolbar x:Name="insertribbontoolbar" />
             </Border>
             <Grid x:Name="Collinserttoolbar" Grid.Column="3" Visibility="Collapsed" BorderBrush="{ThemeResource RibbonColumnBorder}"
@@ -795,7 +794,7 @@ VerticalAlignment="Top"
                 </Grid.Children>
             </Grid>
 
-            <Border x:Name="Fulledittoolbar" Height="120" Grid.Column="4" BorderThickness="0,0,0,0" BorderBrush="{ThemeResource RibbonColumnBorder}">
+            <Border x:Name="Fulledittoolbar" Height="100" Grid.Column="4" BorderThickness="0,0,0,0" BorderBrush="{ThemeResource RibbonColumnBorder}">
                 <Custom:EditingToolbar x:Name="editribbontoolbar" />
             </Border>
             <Grid x:Name="Colledittoolbar" Grid.Column="4" Visibility="Collapsed" BorderBrush="{ThemeResource RibbonColumnBorder}"
@@ -847,20 +846,23 @@ VerticalAlignment="Top"
 
 
         </Grid>
-        <Border x:Name="RulerBorder" Grid.Column="1" BorderBrush="Transparent" BorderThickness="1" VerticalAlignment="Top" Height="36" Grid.Row="4" Grid.ColumnSpan="2">
+        <Border Grid.Column="1" x:Name="RulerBorder" BorderBrush="Transparent" BorderThickness="1" VerticalAlignment="Top" Height="40" Grid.Row="4" Grid.RowSpan="7" Grid.ColumnSpan="2">
             <my:TextRuler x:Name="TextRuler" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind Mode=OneWay, Path=RulerToggle.IsChecked}"/>
         </Border>
-        <Border Grid.Row="4" Grid.Column="0" Margin="20" Visibility="{x:Bind Mode=OneWay, Path=DocsTreeToggle.IsChecked}">
+        <Border Grid.Row="4" Loaded="ShadowRect_Loaded" CornerRadius="10" Translation="0,0,19" Grid.Column="0" Margin="10" Visibility="{x:Bind Mode=OneWay, Path=DocsTreeToggle.IsChecked}">
+            <Border.Shadow>
+                <ThemeShadow x:Name="shadow"/>
+            </Border.Shadow>
             <my:DocTree x:Name="DocTree"/>
         </Border>
         <Grid x:Name="EditorContentHost" Margin="0,40,0,0"
              RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.Below="RulerBorder" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
               Grid.Row="4"
-              SizeChanged="EditorContentHost_SizeChanged" Grid.Column="2">
+              SizeChanged="EditorContentHost_SizeChanged" Grid.Column="1" Grid.ColumnSpan="2">
             <Grid x:Name="EditorContainer">
                 <ScrollViewer x:Name="RichTextScrollView"  HorizontalScrollBarVisibility="Visible" ZoomMode="Enabled" MinZoomFactor="0.5" MaxZoomFactor="3" VerticalAlignment="Top">
                     <Grid x:Name="EditorMandatoryPrintingGrid" Height="1116"   Width="816">
-                        <local:Editor x:Name="Editor" Padding="45,45,45,45" KeyDown="Editor_KeyDown_1" Loaded="Editor_Loaded" SizeChanged="Editor_SizeChanged" Height="1116" Width="816" Style="{StaticResource MinEditStyleNeo}" SelectionChanged="editor_SelectionChanged" TextChanged="Editor_TextChanged" RenderTransformOrigin="0.5,0.5" IsSpellCheckEnabled="False" x:FieldModifier="public" VerticalAlignment="Top" HorizontalAlignment="Center">
+                        <local:Editor x:Name="Editor" Padding="45,45,45,45" KeyDown="Editor_KeyDown_1" Loaded="Editor_Loaded" SizeChanged="Editor_SizeChanged" Height="1116" Width="816" Style="{StaticResource MinEditStyleNeo}" SelectionChanged="editor_SelectionChanged" TextChanged="Editor_TextChanged" RenderTransformOrigin="0.5,0.5" IsSpellCheckEnabled="False" x:FieldModifier="public" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,0,0">
                             <RichEditBox.Resources>
                                 <Storyboard x:Name="REBOpenAnimation">
                                     <DoubleAnimation Storyboard.TargetName="REBScale" Storyboard.TargetProperty="ScaleX" From="0.95" To="1.0" Duration="0:0:0.4">
@@ -990,7 +992,7 @@ VerticalAlignment="Top"
                 BorderThickness="0,1,0,0"
                 Height="36"
                 Grid.Row="5"
-                Visibility="{x:Bind Mode=OneWay, Path=StatusbarToggle.IsChecked}" Grid.ColumnSpan="2">
+                Visibility="{x:Bind Mode=OneWay, Path=StatusbarToggle.IsChecked}" Grid.ColumnSpan="3">
             <Grid>
                 <StackPanel x:Name="ZoomStack" Orientation="Horizontal"
             HorizontalAlignment="Right">

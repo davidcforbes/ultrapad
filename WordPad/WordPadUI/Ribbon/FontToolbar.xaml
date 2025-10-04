@@ -45,7 +45,7 @@
 
     <Grid x:Name="FontGridExpanded" BorderBrush="{ThemeResource RibbonColumnBorder}"
       BorderThickness="0,0,0,0"
-      Padding="12"
+      Padding="4"
       Grid.Column="1">
 
         <Grid.RowDefinitions>

@@ -113,5 +113,10 @@ namespace WordPad.WordPadUI
         {
             if (isTextSelectionChanging == false) SetParagraphIndents((float)LeftInd.Value, (float)RightInd.Value, (float)TabIndent.Value, true);
         }
+
+        private void Border_Loaded(object sender, RoutedEventArgs e)
+        {
+            shadow.Receivers.Add(test);
+        }
     }
 }

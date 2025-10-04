@@ -22,6 +22,7 @@ namespace WordPad.WordPadUI.Settings
         protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            Window.Current.SetTitleBar(AppTitleBar);
 
             // Initialize theme radio buttons
             InitializeThemeRadioButtons();
@@ -164,7 +165,7 @@ namespace WordPad.WordPadUI.Settings
 
         private async void feedback_Click(object sender, RoutedEventArgs e)
         {
-            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://discord.gg/NzusbfSmPp"));
+            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/lixkote/UltraPad/issues"));
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -211,6 +212,9 @@ namespace WordPad.WordPadUI.Settings
 
             // Apply the theme using ThemeManager
             SettingsPageManager.SetPredict(isPredict);
+        }
+        private void AdvFeatureToggle_Toggled(object sender, RoutedEventArgs e)
+        {
         }
 
         private async void donatebutton_Click(object sender, RoutedEventArgs e)

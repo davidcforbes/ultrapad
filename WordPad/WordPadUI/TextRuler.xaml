@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" 
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml" Height="36">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml" Height="40">
 
     <UserControl.Resources>
         <Style x:Key="RulerSlider" TargetType="Slider">
@@ -390,117 +390,118 @@
         </Style>
     </UserControl.Resources>
     <Grid x:Name="RulerGrid" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
-        <ScrollViewer x:Name="SCR3" ZoomMode="Disabled" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" ZoomSnapPointsType="None" VerticalScrollBarVisibility="Disabled" VerticalScrollMode="Disabled" IsVerticalScrollChainingEnabled="False" ViewChanged="SCR3_ViewChanged">
-            <Grid Margin="0,-14,0,-6">
-                <Border BorderThickness="1" Margin="36,10,36,0" CornerRadius="6" Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}" Height="28" VerticalAlignment="Center" BorderBrush="{ThemeResource CardStrokeColorDefaultSolidBrush}">
-                    
+        <ScrollViewer x:Name="SCR3" ZoomMode="Disabled" Margin="0,0,0,0" HorizontalAlignment="Stretch" ZoomSnapPointsType="None" VerticalScrollBarVisibility="Disabled" VerticalScrollMode="Disabled" IsVerticalScrollChainingEnabled="False" ViewChanged="SCR3_ViewChanged" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+            <Grid Margin="0,-14,0,-6" VerticalAlignment="Top">
+                <Border BorderThickness="1" Translation="0,0,9" Loaded="Border_Loaded" Margin="0,20,0,0" CornerRadius="6" Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}" Height="26" VerticalAlignment="Top" BorderBrush="{ThemeResource CardStrokeColorDefaultSolidBrush}">
+                    <Border.Shadow>
+                        <ThemeShadow x:Name="shadow"/>
+                    </Border.Shadow>
                 </Border>
-                <Grid Margin="37,0,36,0">
-                    <StackPanel VerticalAlignment="Bottom" Spacing="19" Orientation="Horizontal" Opacity="0.65" Margin="20,0,0,15">
+                <Grid Name="test" Height="24" BorderThickness="1,0,1,0" BorderBrush="{ThemeResource CardStrokeColorDefaultSolidBrush}" Margin="55,21,55,0" Background="#0CFFFFFF" VerticalAlignment="Top">
+                    <StackPanel Spacing="19" Orientation="Horizontal" Opacity="0.65" VerticalAlignment="Center">
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
-                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
+                        <Border BorderThickness="1" Width="1" Height="4" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                         <Border BorderThickness="1" Width="1" Height="7" BorderBrush="{StaticResource TextFillColorPrimaryBrush}"/>
                     </StackPanel>
                 </Grid>
