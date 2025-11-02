@@ -27,7 +27,7 @@ To compile UltraPad, you will need the following prerequisites:
 
 ## Donate
 If you find this project useful, or you like what i am doing and my work, please consider buying me a cofee to support the development through the kofi link button at the bottom of this message, so that i can continue to keep fixing bugs, and implement new features like ODT/DOCX support. Much thanks for any support :D
-- [Buy me a cofee](https://ko-fi.com/lixkote)
+- [Buy me a coffee](https://ko-fi.com/lixkote)
 
 ## Contributing
 If you want to contribute to UltraPad, please create a pull request.
