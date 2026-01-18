@@ -231,7 +231,7 @@ namespace RectifyPad
             }
             catch (Exception ex)
             {
-                // Handle the exception
+                ErrorLogger.LogException(ex, "LoadSettingsValues");
                 Debug.WriteLine($"An exception occurred: {ex.Message}");
             }
         }
@@ -816,8 +816,9 @@ namespace RectifyPad
                         Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Remove("CurrentlyOpenFile");
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    ErrorLogger.LogException(ex, "SaveFile - failed to save to current file, attempting save as");
                     SaveFile(true);
                 }
             }
@@ -1142,8 +1143,9 @@ namespace RectifyPad
                         Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Remove("CurrentlyOpenFile");
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    ErrorLogger.LogException(ex, "SaveFile - failed to save to current file, attempting save as");
                     SaveFile(true);
                 }
 
@@ -1264,8 +1266,9 @@ namespace RectifyPad
                         Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Remove("CurrentlyOpenFile");
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    ErrorLogger.LogException(ex, "SaveFile - failed to save to current file, attempting save as");
                     SaveFile(true);
                 }
 
@@ -1386,8 +1389,9 @@ namespace RectifyPad
                         Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Remove("CurrentlyOpenFile");
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    ErrorLogger.LogException(ex, "SaveFile - failed to save to current file, attempting save as");
                     SaveFile(true);
                 }
 
@@ -1508,8 +1512,9 @@ namespace RectifyPad
                         Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Remove("CurrentlyOpenFile");
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    ErrorLogger.LogException(ex, "SaveFile - failed to save to current file, attempting save as");
                     SaveFile(true);
                 }
 
@@ -1631,8 +1636,9 @@ namespace RectifyPad
                         Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.Remove("CurrentlyOpenFile");
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    ErrorLogger.LogException(ex, "SaveFile - failed to save to current file, attempting save as");
                     SaveFile(true);
                 }
 

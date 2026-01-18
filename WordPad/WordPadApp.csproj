@@ -410,7 +410,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DocumentFormat.OpenXml">
-      <Version>2.20.0</Version>
+      <Version>2.20.1</Version>
     </PackageReference>
     <PackageReference Include="FanKit.Transformers">
       <Version>1.6.4</Version>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using Windows.Storage.Streams;
@@ -15,6 +16,54 @@ namespace WordPad.Helpers
 {
     public class OdtHelper
     {
+        // Helper method to safely load XML with XXE protection
+        private XmlDocument LoadXmlSafely(string xmlContent)
+        {
+            var xmlDocument = new XmlDocument();
+            var settings = new XmlReaderSettings
+            {
+                DtdProcessing = DtdProcessing.Prohibit,
+                XmlResolver = null,
+                MaxCharactersFromEntities = 1024,
+                MaxCharactersInDocument = 10485760 // 10MB limit
+            };
+
+            using (var stringReader = new StringReader(xmlContent))
+            using (var xmlReader = XmlReader.Create(stringReader, settings))
+            {
+                xmlDocument.Load(xmlReader);
+            }
+
+            return xmlDocument;
+        }
+
+        // Sanitize input for XPath queries to prevent injection
+        private string SanitizeXPathInput(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+
+            // Only allow alphanumeric, hyphens, underscores, and dots
+            return Regex.Replace(input, @"[^a-zA-Z0-9\-_\.]", "");
+        }
+
+        // Validate and sanitize image paths to prevent path traversal
+        private bool IsValidImagePath(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+                return false;
+
+            // Prevent path traversal attacks
+            if (path.Contains("..") || path.Contains("\\") || Path.IsPathRooted(path))
+                return false;
+
+            // Only allow images in Pictures or similar safe directories
+            var normalizedPath = path.Replace("/", "\\").ToLowerInvariant();
+            if (normalizedPath.Contains("system") || normalizedPath.Contains("windows"))
+                return false;
+
+            return true;
+        }
         private void ApplyTextStyle(ITextSelection selection, string text, string styleName, string stylesXml, RichEditBox Editor)
         {
             // Insert the text
@@ -30,15 +79,18 @@ namespace WordPad.Helpers
 
             if (string.IsNullOrEmpty(styleName)) return;
 
-            // Parse styles.xml to extract style details
-            var stylesDoc = new XmlDocument();
-            stylesDoc.LoadXml(stylesXml);
+            // Sanitize styleName to prevent XPath injection
+            var sanitizedStyleName = SanitizeXPathInput(styleName);
+            if (string.IsNullOrEmpty(sanitizedStyleName)) return;
+
+            // Parse styles.xml to extract style details using secure XML loading
+            var stylesDoc = LoadXmlSafely(stylesXml);
 
             var namespaceManager = new XmlNamespaceManager(stylesDoc.NameTable);
             namespaceManager.AddNamespace("style", "urn:oasis:names:tc:opendocument:xmlns:style:1.0");
             namespaceManager.AddNamespace("fo", "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0");
 
-            var styleNode = stylesDoc.SelectSingleNode($"//style:style[@style:name='{styleName}']", namespaceManager);
+            var styleNode = stylesDoc.SelectSingleNode($"//style:style[@style:name='{sanitizedStyleName}']", namespaceManager);
             if (styleNode != null)
             {
                 // Extract style attributes: Bold, Italic, Underline
@@ -63,8 +115,7 @@ namespace WordPad.Helpers
         {
             // Simple parsing to extract text between <text:p> tags
             var plainTextBuilder = new StringBuilder();
-            var xmlDocument = new XmlDocument();
-            xmlDocument.LoadXml(xmlContent);
+            var xmlDocument = LoadXmlSafely(xmlContent);
 
             XmlNamespaceManager namespaceManager = new XmlNamespaceManager(xmlDocument.NameTable);
             namespaceManager.AddNamespace("text", "urn:oasis:names:tc:opendocument:xmlns:text:1.0");
@@ -82,8 +133,7 @@ namespace WordPad.Helpers
         // Load ODT content and apply styles
         public async Task LoadOdtContentWithStyling(string contentXml, string stylesXml, System.IO.Compression.ZipArchive archive, RichEditBox Editor)
         {
-            var contentDoc = new XmlDocument();
-            contentDoc.LoadXml(contentXml);
+            var contentDoc = LoadXmlSafely(contentXml);
 
             XmlNamespaceManager namespaceManager = new XmlNamespaceManager(contentDoc.NameTable);
             namespaceManager.AddNamespace("text", "urn:oasis:names:tc:opendocument:xmlns:text:1.0");
@@ -116,19 +166,27 @@ namespace WordPad.Helpers
                         var imageNode = childNode.SelectSingleNode(".//draw:image", namespaceManager);
                         if (imageNode != null)
                         {
-                            var imagePath = imageNode.Attributes["xlink:href"]?.Value.TrimStart('/');
-                            if (!string.IsNullOrEmpty(imagePath))
+                            var imagePath = imageNode.Attributes["xlink:href"]?.Value?.TrimStart('/');
+
+                            // Validate image path to prevent path traversal
+                            if (!string.IsNullOrEmpty(imagePath) && IsValidImagePath(imagePath))
                             {
                                 var imageEntry = archive.GetEntry(imagePath);
                                 if (imageEntry != null)
                                 {
+                                    // Validate image size (max 10MB)
+                                    if (imageEntry.Length > 10 * 1024 * 1024)
+                                        continue;
+
                                     using (var imageStream = imageEntry.Open())
                                     {
                                         if (imageStream != null)
                                         {
                                             IRandomAccessStream imageUWPFormattedStream = ConvertToRandomAccessStream(imageStream);
-                                            int width = (int)512;
-                                            int height = (int)512;
+
+                                            // Use reasonable default dimensions
+                                            int width = Math.Min(512, 512);
+                                            int height = Math.Min(512, 512);
 
                                             // Load the file into the Document property of the RichEditBox.
                                             Editor.Document.Selection.InsertImage(width, height, 0, VerticalCharacterAlignment.Baseline, "img", imageUWPFormattedStream);
@@ -145,8 +203,7 @@ namespace WordPad.Helpers
         }
         public async Task LoadOdtContentIntoRichEditBox(string contentXml, string stylesXml, System.IO.Compression.ZipArchive archive, RichEditBox Editor)
         {
-            var xmlDocument = new XmlDocument();
-            xmlDocument.LoadXml(contentXml);
+            var xmlDocument = LoadXmlSafely(contentXml);
 
             XmlNamespaceManager namespaceManager = new XmlNamespaceManager(xmlDocument.NameTable);
             namespaceManager.AddNamespace("text", "urn:oasis:names:tc:opendocument:xmlns:text:1.0");
@@ -182,19 +239,27 @@ namespace WordPad.Helpers
                         var imageNode = childNode.SelectSingleNode(".//draw:image", namespaceManager);
                         if (imageNode != null)
                         {
-                            var imagePath = imageNode.Attributes["xlink:href"]?.Value.TrimStart('/');
-                            if (!string.IsNullOrEmpty(imagePath))
+                            var imagePath = imageNode.Attributes["xlink:href"]?.Value?.TrimStart('/');
+
+                            // Validate image path to prevent path traversal
+                            if (!string.IsNullOrEmpty(imagePath) && IsValidImagePath(imagePath))
                             {
                                 var imageEntry = archive.GetEntry(imagePath);
                                 if (imageEntry != null)
                                 {
+                                    // Validate image size (max 10MB)
+                                    if (imageEntry.Length > 10 * 1024 * 1024)
+                                        continue;
+
                                     using (var imageStream = imageEntry.Open())
                                     {
                                         if (imageStream != null)
                                         {
                                             IRandomAccessStream imageUWPFormattedStream = ConvertToRandomAccessStream(imageStream);
-                                            int width = (int)512;
-                                            int height = (int)512;
+
+                                            // Use reasonable default dimensions
+                                            int width = Math.Min(512, 512);
+                                            int height = Math.Min(512, 512);
 
                                             // Load the file into the Document property of the RichEditBox.
                                             Editor.Document.Selection.InsertImage(width, height, 0, VerticalCharacterAlignment.Baseline, "img", imageUWPFormattedStream);

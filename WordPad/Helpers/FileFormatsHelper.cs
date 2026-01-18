@@ -16,25 +16,51 @@ namespace WordPad.Helpers
 
         public string ConvertToRtf()
         {
+            // First pass: collect all unique colors used in the document
+            var uniqueColors = new HashSet<string>();
+            foreach (var run in _document.Descendants<Run>())
+            {
+                if (run.RunProperties?.Color != null)
+                {
+                    uniqueColors.Add(run.RunProperties.Color.Val);
+                }
+            }
+
+            // Build color index map
+            var colorIndexMap = new Dictionary<string, int>();
+            int colorIndex = 1; // RTF color table starts at index 1 (0 is auto)
+            foreach (var colorHex in uniqueColors)
+            {
+                colorIndexMap[colorHex] = colorIndex++;
+            }
+
             var rtfWriter = new StringWriter();
             rtfWriter.WriteLine("{\\rtf1\\ansi\\deff0");
 
-            // Define a color table with all possible RGB values
-            rtfWriter.WriteLine("{\\colortbl ;");
+            // Define color table with ONLY colors actually used in the document
+            rtfWriter.WriteLine("{\\colortbl ;"); // First entry is auto/default
 
-            for (int r = 0; r <= 255; r++)
+            foreach (var colorHex in uniqueColors)
             {
-                for (int g = 0; g <= 255; g++)
+                if (!string.IsNullOrEmpty(colorHex) && colorHex.Length == 6)
                 {
-                    for (int b = 0; b <= 255; b++)
+                    try
                     {
-                        rtfWriter.WriteLine($"\\red{r}\\green{g}\\blue{b};");
+                        int red = Convert.ToInt32(colorHex.Substring(0, 2), 16);
+                        int green = Convert.ToInt32(colorHex.Substring(2, 2), 16);
+                        int blue = Convert.ToInt32(colorHex.Substring(4, 2), 16);
+                        rtfWriter.WriteLine($"\\red{red}\\green{green}\\blue{blue};");
+                    }
+                    catch
+                    {
+                        // Invalid color format, skip
                     }
                 }
             }
 
             rtfWriter.WriteLine("}");
 
+            // Second pass: write the document content
             foreach (var paragraph in _document.Descendants<DocumentFormat.OpenXml.Wordprocessing.Paragraph>())
             {
                 rtfWriter.WriteLine("{\\pard");
@@ -56,7 +82,10 @@ namespace WordPad.Helpers
                         if (run.RunProperties.Color != null)
                         {
                             var colorHex = run.RunProperties.Color.Val;
-                            rtfWriter.Write($"\\cf{GetColorIndex(colorHex)} ");
+                            if (colorIndexMap.TryGetValue(colorHex, out int index))
+                            {
+                                rtfWriter.Write($"\\cf{index} ");
+                            }
                         }
 
                         if (run.RunProperties.FontSize != null)
@@ -84,19 +113,6 @@ namespace WordPad.Helpers
             rtfWriter.WriteLine("}");
 
             return rtfWriter.ToString();
-        }
-        private int GetColorIndex(string colorHex)
-        {
-            // You can calculate the color index based on the RGB values in the color table
-            // For simplicity, this example assumes that colorHex is in the format "RRGGBB"
-            int red = Convert.ToInt32(colorHex.Substring(0, 2), 16);
-            int green = Convert.ToInt32(colorHex.Substring(2, 2), 16);
-            int blue = Convert.ToInt32(colorHex.Substring(4, 2), 16);
-
-            // Calculate the color index
-            int colorIndex = (red * 256 * 256 + green * 256 + blue) + 1;
-
-            return colorIndex;
         }
         #endregion
 

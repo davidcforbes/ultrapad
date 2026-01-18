@@ -5,6 +5,7 @@ using RectifyPad.Helpers;
 using System.Threading.Tasks;
 using System;
 using Windows.Storage;
+using WordPad.Helpers;
 
 public static class RecentlyUsedHelper
 {
@@ -21,8 +22,9 @@ public static class RecentlyUsedHelper
                 var file = await mru.GetFileAsync(entry.Token);
                 return new RecentlyUsedClass { Name = file.Name, Path = file.Path, OriginalFile = file, Token = entry.Token };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ErrorLogger.LogWarning($"Failed to load recent file: {ex.Message}", "GetRecentlyUsedItems");
                 return null;
             }
         }));

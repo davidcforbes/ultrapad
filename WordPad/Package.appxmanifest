@@ -86,7 +86,8 @@
 	  <Capability Name="internetClient" />
 	  <rescap:Capability Name="confirmAppClose"/>
 	  <rescap:Capability Name="packageQuery" />
-	  <rescap:Capability Name="broadFileSystemAccess" />
+	  <!-- Removed broadFileSystemAccess for security - use specific library access instead -->
+	  <uap:Capability Name="documentsLibrary"/>
 	  <uap:Capability Name="removableStorage"/>
 	  <uap:Capability Name="videosLibrary"/>
 	  <uap:Capability Name="musicLibrary"/>
