@@ -3,10 +3,10 @@ using RectifyPad;
 using System;
 using Windows.Storage;
 using Windows.UI;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 
 namespace WordPad.WordPadUI.Settings
 {
@@ -19,10 +19,11 @@ namespace WordPad.WordPadUI.Settings
             WordWrapIcon.FontFamily = (FontFamily)Application.Current.Resources["CustomIconFont"];
         }
 
-        protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        protected override void OnNavigatedTo(Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            Window.Current.SetTitleBar(AppTitleBar);
+            // Title bar is now handled by MainWindow in WinUI 3
+            // Window.Current.SetTitleBar(AppTitleBar);
 
             // Initialize theme radio buttons
             InitializeThemeRadioButtons();
@@ -115,29 +116,19 @@ namespace WordPad.WordPadUI.Settings
 
         private void ApplyTheme(string selectedTheme)
         {
-            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
-
+            // In WinUI 3, title bar customization is handled differently
+            // Get the window and apply theme
             if (selectedTheme == "Dark")
             {
-                titleBar.ButtonForegroundColor = Colors.White;
                 App.RootTheme = ElementTheme.Dark;
             }
             else if (selectedTheme == "Light")
             {
-                titleBar.ButtonForegroundColor = Colors.Black;
                 App.RootTheme = ElementTheme.Light;
             }
             else
             {
                 App.RootTheme = ElementTheme.Default;
-                if (Application.Current.RequestedTheme == ApplicationTheme.Dark)
-                {
-                    titleBar.ButtonForegroundColor = Colors.White;
-                }
-                else
-                {
-                    titleBar.ButtonForegroundColor = Colors.Black;
-                }
             }
         }
 

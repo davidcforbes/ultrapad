@@ -10,10 +10,7 @@ using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -81,7 +78,7 @@ namespace WordPad.WordPadUI
         }
 
 
-        private void ClearButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void ClearButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             var selectedItem = TabsPostitionsListView.SelectedItem;
 
@@ -93,7 +90,7 @@ namespace WordPad.WordPadUI
             EnteringBox.Text = string.Empty;
         }
 
-        private void SetButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void SetButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             string enteredvalue = EnteringBox.Text;
             string unitprefix = (string)localSettings.Values["unit"];

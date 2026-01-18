@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.System;
-using Windows.UI.Core;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml;
 
 namespace RectifyPad
 {
@@ -15,12 +14,7 @@ namespace RectifyPad
     {
         protected override void OnKeyDown(KeyRoutedEventArgs e)
         {
-            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
-
-            if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
-            {
-                return;
-            }
+            // Keyboard state checking removed - now handled in MainWindow through keyboard event overrides
             base.OnKeyDown(e);
         }
     }

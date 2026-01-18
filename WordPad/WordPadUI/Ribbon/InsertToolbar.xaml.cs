@@ -11,14 +11,14 @@ using Windows.Storage.Streams;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Text;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Navigation;
 using Windows.Storage.Pickers;
 using Windows.ApplicationModel.Core;
 using Windows.Management.Deployment;
@@ -33,6 +33,12 @@ namespace WordPad.WordPadUI.Ribbon
         public InsertToolbar()
         {
             this.InitializeComponent();
+        }
+
+        private IntPtr GetWindowHandle()
+        {
+            var window = (App.Current as App)?.MainWindow as MainWindow;
+            return window != null ? WinRT.Interop.WindowNative.GetWindowHandle(window) : IntPtr.Zero;
         }
 
         private async void InsertDateAndTimeButton_Click(object sender, RoutedEventArgs e)
@@ -220,6 +226,7 @@ namespace WordPad.WordPadUI.Ribbon
         {
             // Open an image file.
             FileOpenPicker open = new FileOpenPicker();
+            WinRT.Interop.InitializeWithWindow.Initialize(open, GetWindowHandle());
             open.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
             open.FileTypeFilter.Add(".png");
             open.FileTypeFilter.Add(".jpg");
