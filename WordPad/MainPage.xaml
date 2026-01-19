@@ -52,7 +52,7 @@
                         <Setter Target="Collparatoolbar.Visibility" Value="Collapsed" />
 
                         <Setter Target="Fullinserttoolbar.Visibility" Value="Visible" />
-                        <Setter Target="Collinserttoolbar.Visibility" Value="Collpased" />
+                        <Setter Target="Collinserttoolbar.Visibility" Value="Collapsed" />
 
                         <Setter Target="Fulledittoolbar.Visibility" Value="Visible" />
                         <Setter Target="Colledittoolbar.Visibility" Value="Collapsed" />
@@ -70,7 +70,7 @@
                         <Setter Target="Collparatoolbar.Visibility" Value="Collapsed" />
 
                         <Setter Target="Fullinserttoolbar.Visibility" Value="Visible" />
-                        <Setter Target="Collinserttoolbar.Visibility" Value="Collpased" />
+                        <Setter Target="Collinserttoolbar.Visibility" Value="Collapsed" />
 
                         <Setter Target="Fulledittoolbar.Visibility" Value="Visible" />
                         <Setter Target="Colledittoolbar.Visibility" Value="Collapsed" />
@@ -88,7 +88,7 @@
                         <Setter Target="Collparatoolbar.Visibility" Value="Collapsed" />
 
                         <Setter Target="Fullinserttoolbar.Visibility" Value="Visible" />
-                        <Setter Target="Collinserttoolbar.Visibility" Value="Collpased" />
+                        <Setter Target="Collinserttoolbar.Visibility" Value="Collapsed" />
 
                         <Setter Target="Fulledittoolbar.Visibility" Value="Visible" />
                         <Setter Target="Colledittoolbar.Visibility" Value="Collapsed" />
@@ -106,7 +106,7 @@
                         <Setter Target="Collparatoolbar.Visibility" Value="Collapsed" />
 
                         <Setter Target="Fullinserttoolbar.Visibility" Value="Visible" />
-                        <Setter Target="Collinserttoolbar.Visibility" Value="Collpased" />
+                        <Setter Target="Collinserttoolbar.Visibility" Value="Collapsed" />
 
                         <Setter Target="Fulledittoolbar.Visibility" Value="Visible" />
                         <Setter Target="Colledittoolbar.Visibility" Value="Collapsed" />
@@ -124,7 +124,7 @@
                         <Setter Target="Collparatoolbar.Visibility" Value="Collapsed" />
 
                         <Setter Target="Fullinserttoolbar.Visibility" Value="Visible" />
-                        <Setter Target="Collinserttoolbar.Visibility" Value="Collpased" />
+                        <Setter Target="Collinserttoolbar.Visibility" Value="Collapsed" />
 
                         <Setter Target="Fulledittoolbar.Visibility" Value="Visible" />
                         <Setter Target="Colledittoolbar.Visibility" Value="Collapsed" />
@@ -142,7 +142,7 @@
                         <Setter Target="Collparatoolbar.Visibility" Value="Collapsed" />
 
                         <Setter Target="Fullinserttoolbar.Visibility" Value="Visible" />
-                        <Setter Target="Collinserttoolbar.Visibility" Value="Collpased" />
+                        <Setter Target="Collinserttoolbar.Visibility" Value="Collapsed" />
 
                         <Setter Target="Fulledittoolbar.Visibility" Value="Visible" />
                         <Setter Target="Colledittoolbar.Visibility" Value="Collapsed" />
