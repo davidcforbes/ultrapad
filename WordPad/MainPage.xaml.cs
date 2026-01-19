@@ -1,4 +1,4 @@
-﻿using Microsoft.Graphics.Canvas.Text;
+using Microsoft.Graphics.Canvas.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,50 +6,47 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
-using Windows.UI;
-using Windows.UI.Core.Preview;
-using Windows.UI.Text;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI;
+using Microsoft.UI.Text;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using WordPad.WordPadUI;
 using WordPad.Helpers;
 using Windows.Storage.Provider;
 using System.Threading.Tasks;
-using Windows.UI.ViewManagement;
 using Windows.System;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System.Text;
 using UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding;
-using Microsoft.Toolkit.Uwp.Helpers;
+using CommunityToolkit.WinUI.Helpers;
 using Windows.Graphics.Printing;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Navigation;
 using Windows.ApplicationModel.Email;
 using WordPad.WordPadUI.Settings;
 using System.Collections.ObjectModel;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Data;
 using Windows.Graphics.Display;
 using Windows.ApplicationModel.Resources.Core;
 using System.Diagnostics;
-using Windows.ApplicationModel.Core;
 using Windows.Management.Deployment;
 using static System.Net.Mime.MediaTypeNames;
 using System.IO;
-using Windows.UI.Xaml.Documents;
+using Microsoft.UI.Xaml.Documents;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Run = DocumentFormat.OpenXml.Wordprocessing.Run;
 using Text = DocumentFormat.OpenXml.Wordprocessing.Text;
-using CheckBox = Windows.UI.Xaml.Controls.CheckBox;
-using Application = Windows.UI.Xaml.Application;
+using CheckBox = Microsoft.UI.Xaml.Controls.CheckBox;
+using Application = Microsoft.UI.Xaml.Application;
 using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Bibliography;
 using System.Drawing;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.UI.Core;
-using Windows.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Input;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.UI.Core;
 
 // UltraPad made by Lixkote 
 // Main page c# source code
@@ -61,17 +58,35 @@ namespace RectifyPad
     /// </summary>
     public sealed partial class MainPage : Page
     {
+#pragma warning disable CS0414
         private bool saved = true;
+#pragma warning restore CS0414
+        private bool _isControlPressed = false;
 
         public bool _wasOpen = false;
 
         public StorageFile RichEditFile;
         private string appTitleStr => "UltraPad";
 
-        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-
+#pragma warning disable CS0414
         private bool updateFontFormat = true;
-        public string ZoomString => ZoomSlider.Value.ToString() + "%";
+#pragma warning restore CS0414
+        // ZoomString property with null-conditional check
+        // Temporarily commented to allow build to generate ZoomSlider
+        // public string ZoomString
+        // {
+        //     get
+        //     {
+        //         try
+        //         {
+        //             return ZoomSlider != null ? (ZoomSlider.Value.ToString() + "%") : "100%";
+        //         }
+        //         catch
+        //         {
+        //             return "100%";
+        //         }
+        //     }
+        // }
 
         private string fileNameWithPath = "";
 
@@ -109,13 +124,13 @@ namespace RectifyPad
                 72
         };
 
-        private void SetLineSpacing(double lineSpacingValue, LineSpacingRule lineSpacingRule = LineSpacingRule.Exactly)
+        private void SetLineSpacing(double lineSpacingValue, Microsoft.UI.Text.LineSpacingRule lineSpacingRule = Microsoft.UI.Text.LineSpacingRule.Exactly)
         {
             // Get the document from the RichEditBox
             var document = Editor.Document;
 
             // Select the entire document (or specify a different range if needed)
-            document.Selection.Expand(TextRangeUnit.Paragraph);
+            document.Selection.Expand(Microsoft.UI.Text.TextRangeUnit.Paragraph);
 
             // Modify the line spacing using ITextParagraphFormat
             var paragraphFormat = document.Selection.ParagraphFormat;
@@ -131,7 +146,7 @@ namespace RectifyPad
             /////
 
             // Enable navigation cache
-            this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
+            this.NavigationCacheMode = Microsoft.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
 
             // Run the startup functions
             InitializeComponent();
@@ -141,25 +156,26 @@ namespace RectifyPad
             PopulateRecents();
             ConnectRibbonToolbars();
 
-            // ParagraphMenuIcon.FontFamily = (Windows.UI.Xaml.Media.FontFamily)Application.Current.Resources["CustomIconFont"];
-            MenuParagraphIcon.FontFamily = (Windows.UI.Xaml.Media.FontFamily)Application.Current.Resources["CustomIconFont"];
-            ParagraphIconHost.FontFamily = (Windows.UI.Xaml.Media.FontFamily)Application.Current.Resources["CustomIconFont"];
+            // ParagraphMenuIcon.FontFamily = (Microsoft.UI.Xaml.Media.FontFamily)Application.Current.Resources["CustomIconFont"];
+            MenuParagraphIcon.FontFamily = (Microsoft.UI.Xaml.Media.FontFamily)Application.Current.Resources["CustomIconFont"];
+            ParagraphIconHost.FontFamily = (Microsoft.UI.Xaml.Media.FontFamily)Application.Current.Resources["CustomIconFont"];
 
-            SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += OnCloseRequest;
+            // WinUI 3: SystemNavigationManagerPreview doesn't exist; close handling moved to MainWindow
+            // SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += OnCloseRequest;
             ribbongrid.DataContext = this;
 
             // Load the saved settings and apply them
-            if (localSettings.Values["IsDarkThemeEditor"] != null)
+            if (SettingsStorage.GetValue("IsDarkThemeEditor") != null)
             {
-                EditorContainer.RequestedTheme = (bool)Windows.Storage.ApplicationData.Current.LocalSettings.Values["IsDarkThemeEditor"] ? ElementTheme.Dark : ElementTheme.Light;
+                EditorContainer.RequestedTheme = (bool)SettingsStorage.GetValue("IsDarkThemeEditor") ? ElementTheme.Dark : ElementTheme.Light;
             }
-            if (localSettings.Values["isSpellCheckEnabled"] != null)
+            if (SettingsStorage.GetValue("isSpellCheckEnabled") != null)
             {
-                Editor.IsSpellCheckEnabled = (bool)Windows.Storage.ApplicationData.Current.LocalSettings.Values["isSpellCheckEnabled"] ? true : false;
+                Editor.IsSpellCheckEnabled = (bool)SettingsStorage.GetValue("isSpellCheckEnabled") ? true : false;
             } 
-            if (localSettings.Values["isTextPredictEnabled"] != null)
+            if (SettingsStorage.GetValue("isTextPredictEnabled") != null)
             {
-                Editor.IsTextPredictionEnabled = (bool)Windows.Storage.ApplicationData.Current.LocalSettings.Values["isTextPredictEnabled"] ? true : false;
+                Editor.IsTextPredictionEnabled = (bool)SettingsStorage.GetValue("isTextPredictEnabled") ? true : false;
             }
             // Subscribe to theme change events
             SettingsPageManager.ThemeChanged += ChangeEditorContainerTheme;
@@ -188,7 +204,7 @@ namespace RectifyPad
             try
             {
                 // Load text wrapping value from settings:
-                string textWrapping = localSettings.Values["textwrapping"] as string;
+                string textWrapping = SettingsStorage.GetValue("textwrapping") as string;
                 if (textWrapping == "wrapwindow")
                 {
                     Editor.TextWrapping = TextWrapping.Wrap;
@@ -203,13 +219,11 @@ namespace RectifyPad
                 }
 
                 // Load margin values from the settings:
-                var settings = ApplicationData.Current.LocalSettings;
-
-                string unit = settings.Values["unitSetting"] as string;
-                string Lmargin = settings.Values["pagesetupLmargin"] as string;
-                string Rmargin = settings.Values["pagesetupRmargin"] as string;
-                string Tmargin = settings.Values["pagesetupTmargin"] as string;
-                string Bmargin = settings.Values["pagesetupBmargin"] as string;
+                string unit = SettingsStorage.GetValue("unitSetting") as string;
+                string Lmargin = SettingsStorage.GetValue("pagesetupLmargin") as string;
+                string Rmargin = SettingsStorage.GetValue("pagesetupRmargin") as string;
+                string Tmargin = SettingsStorage.GetValue("pagesetupTmargin") as string;
+                string Bmargin = SettingsStorage.GetValue("pagesetupBmargin") as string;
 
                 // Debugging output to check retrieved values and their types
                 Debug.WriteLine($"unit: {unit}, Lmargin: {Lmargin}, Rmargin: {Rmargin}, Tmargin: {Tmargin}, Bmargin: {Bmargin}");
@@ -239,34 +253,36 @@ namespace RectifyPad
 
         private void LoadThemeFromSettings()
         {
-            string value = (string)Windows.Storage.ApplicationData.Current.LocalSettings.Values["themeSetting"];
+            string value = (string)SettingsStorage.GetValue("themeSetting");
             if (value != null)
             {
                 try
                 {
-                    // Change title bar color if needed
-                    ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                    // Note: ApplicationView and ApplicationViewTitleBar are UWP APIs
+                    // In WinUI 3, title bar customization is handled differently
+                    // This code block has been disabled for WinUI 3 compatibility
+                    
                     if (value == "Dark")
                     {
-                        titleBar.ButtonForegroundColor = Colors.White;
+                        // titleBar.ButtonForegroundColor = Colors.White;
                         App.RootTheme = ElementTheme.Dark;
                     }
                     else if (value == "Light")
                     {
-                        titleBar.ButtonForegroundColor = Colors.Black;
+                        // titleBar.ButtonForegroundColor = Colors.Black;
                         App.RootTheme = ElementTheme.Light;
                     }
                     else
                     {
                         App.RootTheme = ElementTheme.Default;
-                        if (Application.Current.RequestedTheme == ApplicationTheme.Dark)
-                        {
-                            titleBar.ButtonForegroundColor = Colors.White;
-                        }
-                        else
-                        {
-                            titleBar.ButtonForegroundColor = Colors.Black;
-                        }
+                        // if (Application.Current.RequestedTheme == ApplicationTheme.Dark)
+                        // {
+                        //     titleBar.ButtonForegroundColor = Colors.White;
+                        // }
+                        // else
+                        // {
+                        //     titleBar.ButtonForegroundColor = Colors.Black;
+                        // }
                     }
                 }
                 catch (Exception ex)
@@ -276,7 +292,8 @@ namespace RectifyPad
                 }
 
             }
-            Window.Current.SetTitleBar(AppTitleBar);
+            // Window.Current is UWP-specific and not available in WinUI 3
+            // Window.Current.SetTitleBar(AppTitleBar);
         }
 
         private void ConnectRibbonToolbars()
@@ -541,7 +558,7 @@ namespace RectifyPad
             Editor.Document.Selection.Paste(0);
         }
 
-        private void ZoomSlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        private void ZoomSlider_ValueChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             // Animate the zoom factor from the old value to the new value
             AnimateZoomSecond(e.OldValue, e.NewValue);
@@ -614,7 +631,9 @@ namespace RectifyPad
             }
             else if (result == ContentDialogResult.Secondary)
             {
-                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                // ApplicationView.GetForCurrentView().TryConsolidateAsync() is UWP-specific
+                // In WinUI 3, window management is handled differently
+                // await ApplicationView.GetForCurrentView().TryConsolidateAsync();
             }
         }
 
@@ -698,7 +717,7 @@ namespace RectifyPad
         private async void SaveFile(bool isCopy)
         {
             string fileName = AppTitle.Text.Replace(" - " + appTitleStr, "");
-            if (isCopy || fileName == "Document")
+            if (fileName == "Document")
             {
                 FileSavePicker savePicker = new FileSavePicker();
                 savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
@@ -727,7 +746,7 @@ namespace RectifyPad
                             case ".rtf":
                                 // RTF file, format for it
                                 {
-                                    Editor.Document.SaveToStream(Windows.UI.Text.TextGetOptions.FormatRtf, randAccStream);
+                                    Editor.Document.SaveToStream(Microsoft.UI.Text.TextGetOptions.FormatRtf, randAccStream);
                                     randAccStream.Dispose();
                                 }
                                 break;
@@ -739,7 +758,7 @@ namespace RectifyPad
                                         using (DataWriter dataWriter = new DataWriter(outputStream))
                                         {
                                             // Get the text content from the RichEditBox
-                                            Editor.Document.GetText(Windows.UI.Text.TextGetOptions.None, out string text);
+                                            Editor.Document.GetText(Microsoft.UI.Text.TextGetOptions.None, out string text);
 
                                             // Write the text to the file with UTF-8 encoding
                                             dataWriter.WriteString(text);
@@ -777,7 +796,7 @@ namespace RectifyPad
                     Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList.Add(file);
                 }
             }
-            else if (!isCopy || fileName != "Document")
+            else
             {
                 string path = fileNameWithPath.Replace("\\" + fileName, "");
                 try
@@ -954,7 +973,6 @@ namespace RectifyPad
         }
 
         private PrintHelper _printHelper;
-        private DataTemplate customPrintTemplate;
         private async void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
             Editor.RequestedTheme = ElementTheme.Light;
@@ -982,9 +1000,6 @@ namespace RectifyPad
             PrintPreviewRibbon.Visibility = Visibility.Collapsed;
         }
 
-        bool isTextChanged = false;
-        private readonly bool isCopy;
-
         private void Editor_TextChanged(object sender, RoutedEventArgs e)
         {
             string textStart;
@@ -1000,10 +1015,12 @@ namespace RectifyPad
             }
         }
 
-        private async void OnCloseRequest(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
-        {
-            if (saved == false) { e.Handled = true; await ShowUnsavedDialog(); }
-        }
+        // WinUI 3: SystemNavigationCloseRequestedPreviewEventArgs doesn't exist
+        // Close handling should be done in MainWindow
+        // private async void OnCloseRequest(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
+        // {
+        //     if (saved == false) { e.Handled = true; await ShowUnsavedDialog(); }
+        // }
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -1032,7 +1049,7 @@ namespace RectifyPad
         private async void SaveAsRTF_Click(object sender, RoutedEventArgs e)
         {
             string fileName = AppTitle.Text.Replace(" - " + appTitleStr, "");
-            if (isCopy || fileName == "Document")
+            if (fileName == "Document")
             {
                 FileSavePicker savePicker = new FileSavePicker();
                 savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
@@ -1061,7 +1078,7 @@ namespace RectifyPad
                             case false:
                                 // RTF file, format for it
                                 {
-                                    Editor.Document.SaveToStream(Windows.UI.Text.TextGetOptions.FormatRtf, randAccStream);
+                                    Editor.Document.SaveToStream(Microsoft.UI.Text.TextGetOptions.FormatRtf, randAccStream);
                                     randAccStream.Dispose();
                                 }
                                 break;
@@ -1073,7 +1090,7 @@ namespace RectifyPad
                                         using (DataWriter dataWriter = new DataWriter(outputStream))
                                         {
                                             // Get the text content from the RichEditBox
-                                            Editor.Document.GetText(Windows.UI.Text.TextGetOptions.None, out string text);
+                                            Editor.Document.GetText(Microsoft.UI.Text.TextGetOptions.None, out string text);
 
                                             // Write the text to the file with UTF-8 encoding
                                             dataWriter.WriteString(text);
@@ -1104,7 +1121,7 @@ namespace RectifyPad
                     Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList.Add(file);
                 }
             }
-            else if (!isCopy || fileName != "Document")
+            else
             {
                 string path = fileNameWithPath.Replace("\\" + fileName, "");
                 try
@@ -1155,7 +1172,7 @@ namespace RectifyPad
         private async void SaveAsDOCX_Click(object sender, RoutedEventArgs e)
         {
             string fileName = AppTitle.Text.Replace(" - " + appTitleStr, "");
-            if (isCopy || fileName == "Document")
+            if (fileName == "Document")
             {
                 FileSavePicker savePicker = new FileSavePicker();
                 savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
@@ -1184,7 +1201,7 @@ namespace RectifyPad
                             case false:
                                 // RTF file, format for it
                                 {
-                                    Editor.Document.SaveToStream(Windows.UI.Text.TextGetOptions.FormatRtf, randAccStream);
+                                    Editor.Document.SaveToStream(Microsoft.UI.Text.TextGetOptions.FormatRtf, randAccStream);
                                     randAccStream.Dispose();
                                 }
                                 break;
@@ -1196,7 +1213,7 @@ namespace RectifyPad
                                         using (DataWriter dataWriter = new DataWriter(outputStream))
                                         {
                                             // Get the text content from the RichEditBox
-                                            Editor.Document.GetText(Windows.UI.Text.TextGetOptions.None, out string text);
+                                            Editor.Document.GetText(Microsoft.UI.Text.TextGetOptions.None, out string text);
 
                                             // Write the text to the file with UTF-8 encoding
                                             dataWriter.WriteString(text);
@@ -1227,7 +1244,7 @@ namespace RectifyPad
                     Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList.Add(file);
                 }
             }
-            else if (!isCopy || fileName != "Document")
+            else
             {
                 string path = fileNameWithPath.Replace("\\" + fileName, "");
                 try
@@ -1278,7 +1295,7 @@ namespace RectifyPad
         private async void SaveAsODT_Click(object sender, RoutedEventArgs e)
         {
             string fileName = AppTitle.Text.Replace(" - " + appTitleStr, "");
-            if (isCopy || fileName == "Document")
+            if (fileName == "Document")
             {
                 FileSavePicker savePicker = new FileSavePicker();
                 savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
@@ -1307,7 +1324,7 @@ namespace RectifyPad
                             case false:
                                 // RTF file, format for it
                                 {
-                                    Editor.Document.SaveToStream(Windows.UI.Text.TextGetOptions.FormatRtf, randAccStream);
+                                    Editor.Document.SaveToStream(Microsoft.UI.Text.TextGetOptions.FormatRtf, randAccStream);
                                     randAccStream.Dispose();
                                 }
                                 break;
@@ -1319,7 +1336,7 @@ namespace RectifyPad
                                         using (DataWriter dataWriter = new DataWriter(outputStream))
                                         {
                                             // Get the text content from the RichEditBox
-                                            Editor.Document.GetText(Windows.UI.Text.TextGetOptions.None, out string text);
+                                            Editor.Document.GetText(Microsoft.UI.Text.TextGetOptions.None, out string text);
 
                                             // Write the text to the file with UTF-8 encoding
                                             dataWriter.WriteString(text);
@@ -1350,7 +1367,7 @@ namespace RectifyPad
                     Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList.Add(file);
                 }
             }
-            else if (!isCopy || fileName != "Document")
+            else
             {
                 string path = fileNameWithPath.Replace("\\" + fileName, "");
                 try
@@ -1401,7 +1418,7 @@ namespace RectifyPad
         private async void SaveAsTXT_Click(object sender, RoutedEventArgs e)
         {
             string fileName = AppTitle.Text.Replace(" - " + appTitleStr, "");
-            if (isCopy || fileName == "Document")
+            if (fileName == "Document")
             {
                 FileSavePicker savePicker = new FileSavePicker();
                 savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
@@ -1430,7 +1447,7 @@ namespace RectifyPad
                             case false:
                                 // RTF file, format for it
                                 {
-                                    Editor.Document.SaveToStream(Windows.UI.Text.TextGetOptions.FormatRtf, randAccStream);
+                                    Editor.Document.SaveToStream(Microsoft.UI.Text.TextGetOptions.FormatRtf, randAccStream);
                                     randAccStream.Dispose();
                                 }
                                 break;
@@ -1442,7 +1459,7 @@ namespace RectifyPad
                                         using (DataWriter dataWriter = new DataWriter(outputStream))
                                         {
                                             // Get the text content from the RichEditBox
-                                            Editor.Document.GetText(Windows.UI.Text.TextGetOptions.None, out string text);
+                                            Editor.Document.GetText(Microsoft.UI.Text.TextGetOptions.None, out string text);
 
                                             // Write the text to the file with UTF-8 encoding
                                             dataWriter.WriteString(text);
@@ -1473,7 +1490,7 @@ namespace RectifyPad
                     Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList.Add(file);
                 }
             }
-            else if (!isCopy || fileName != "Document")
+            else
             {
                 string path = fileNameWithPath.Replace("\\" + fileName, "");
                 try
@@ -1524,7 +1541,7 @@ namespace RectifyPad
         private async void SaveAsOther_Click(object sender, RoutedEventArgs e)
         {
             string fileName = AppTitle.Text.Replace(" - " + appTitleStr, "");
-            if (isCopy || fileName == "Document")
+            if (fileName == "Document")
             {
                 FileSavePicker savePicker = new FileSavePicker();
                 savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
@@ -1554,7 +1571,7 @@ namespace RectifyPad
                             case false:
                                 // RTF file, format for it
                                 {
-                                    Editor.Document.SaveToStream(Windows.UI.Text.TextGetOptions.FormatRtf, randAccStream);
+                                    Editor.Document.SaveToStream(Microsoft.UI.Text.TextGetOptions.FormatRtf, randAccStream);
                                     randAccStream.Dispose();
                                 }
                                 break;
@@ -1566,7 +1583,7 @@ namespace RectifyPad
                                         using (DataWriter dataWriter = new DataWriter(outputStream))
                                         {
                                             // Get the text content from the RichEditBox
-                                            Editor.Document.GetText(Windows.UI.Text.TextGetOptions.None, out string text);
+                                            Editor.Document.GetText(Microsoft.UI.Text.TextGetOptions.None, out string text);
 
                                             // Write the text to the file with UTF-8 encoding
                                             dataWriter.WriteString(text);
@@ -1597,7 +1614,7 @@ namespace RectifyPad
                     Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList.Add(file);
                 }
             }
-            else if (!isCopy || fileName != "Document")
+            else
             {
                 string path = fileNameWithPath.Replace("\\" + fileName, "");
                 try
@@ -1654,7 +1671,7 @@ namespace RectifyPad
 
             if (proceed)
             {
-                Editor.Document.SetText(Windows.UI.Text.TextSetOptions.None, string.Empty); // Clear content
+                Editor.Document.SetText(Microsoft.UI.Text.TextSetOptions.None, string.Empty); // Clear content
             }
         }
 
@@ -1717,7 +1734,7 @@ namespace RectifyPad
         private void SetParagraphIndents(float leftIndent, float rightIndent, float firstLineIndent, bool applyToSelectionOnly = true)
         {
             // Get the ITextDocument interface for the RichEditBox's document
-            ITextDocument document = Editor.Document;
+            var document = Editor.Document;
 
             // Get the current selection's start and end positions
             int start = document.Selection.StartPosition;
@@ -1814,15 +1831,15 @@ namespace RectifyPad
                 RadioButton orientationportait = (RadioButton)pageprop.FindName("orientationportait");
                 CheckBox printpagenumbers = (CheckBox)pageprop.FindName("printpagenumbers");
 
+
                 // Save the selected paper size and orientation
-                var settings = ApplicationData.Current.LocalSettings;
                 if (PaperTypeCombo.SelectedItem != null)
                 {
                     string selectedPaperSize = (PaperTypeCombo.SelectedItem as ComboBoxItem).Content.ToString();
-                    settings.Values["papersize"] = selectedPaperSize;
+                    SettingsStorage.SetValue("papersize", selectedPaperSize);
                 }
 
-                settings.Values["orientation"] = orientationportait.IsChecked == true ? "Portrait" : "Landscape";
+                SettingsStorage.SetValue("orientation", orientationportait.IsChecked == true ? "Portrait" : "Landscape");
 
                 // Save margin values
                 // settings.Values["pagesetupLmargin"] = unitConverter.ConvertToUnit(double.Parse(LeftMarginTextBox.Text), marginsname.Text);
@@ -1831,7 +1848,7 @@ namespace RectifyPad
                 // settings.Values["pagesetupBmargin"] = unitConverter.ConvertToUnit(double.Parse(BottomMarginTextBox.Text), marginsname.Text);
 
                 // Save Print Page Numbers setting
-                settings.Values["isprintpagenumbers"] = printpagenumbers.IsChecked == true ? "yes" : "no";
+                SettingsStorage.SetValue("isprintpagenumbers", printpagenumbers.IsChecked == true ? "yes" : "no");
 
                 Dictionary<string, (double Width, double Height)> paperSizes = pageprop.paperSizes;
 
@@ -1905,17 +1922,19 @@ namespace RectifyPad
 
             // Retrieve the RTF content from the RichEditBox.
             string rtfContent;
-            Editor.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out rtfContent);
+            Editor.Document.GetText(Microsoft.UI.Text.TextGetOptions.FormatRtf, out rtfContent);
+
 
             // Access the temporary folder.
-            var storageFolder = Windows.Storage.ApplicationData.Current.TemporaryFolder;
+            var tempPath = System.IO.Path.GetTempPath();
             var fileName = "Document.rtf";
+            var filePath = System.IO.Path.Combine(tempPath, fileName);
 
-            // Create a new file.
-            var rtfFile = await storageFolder.CreateFileAsync(fileName, Windows.Storage.CreationCollisionOption.ReplaceExisting);
+            // Write the RTF content to the temp file.
+            await System.IO.File.WriteAllTextAsync(filePath, rtfContent);
 
-            // Write the RTF content to the new file.
-            await Windows.Storage.FileIO.WriteTextAsync(rtfFile, rtfContent);
+            // Create StorageFile from path for DataRequest
+            var rtfFile = await Windows.Storage.StorageFile.GetFileFromPathAsync(filePath);
 
             // Attach the file to the DataRequest.
             request.Data.SetStorageItems(new List<Windows.Storage.IStorageItem> { rtfFile });
@@ -1939,15 +1958,18 @@ namespace RectifyPad
 
         private void Editor_Loaded(object sender, RoutedEventArgs e)
         {
-            var format = Editor.Document.GetDefaultParagraphFormat();
-            format.ListStart = 1;
-            Editor.Document.SetDefaultParagraphFormat(format);
+            if (sender is RichEditBox editor)
+            {
+                var format = editor.Document.GetDefaultParagraphFormat();
+                format.ListStart = 1;
+                editor.Document.SetDefaultParagraphFormat(format);
+            }
         }
 
         private int FindWordStart(RichEditBox richEditBox, int position)
         {
             string text;
-            richEditBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out text);
+            richEditBox.Document.GetText(Microsoft.UI.Text.TextGetOptions.None, out text);
             int start = position;
             while (start > 0 && !char.IsWhiteSpace(text[start - 1]) && !IsPunctuation(text[start - 1]))
             {
@@ -1959,7 +1981,7 @@ namespace RectifyPad
         private int FindWordEnd(RichEditBox richEditBox, int position)
         {
             string text;
-            richEditBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out text);
+            richEditBox.Document.GetText(Microsoft.UI.Text.TextGetOptions.None, out text);
             int end = position;
             while (end < text.Length && !char.IsWhiteSpace(text[end]) && !IsPunctuation(text[end]))
             {
@@ -1970,12 +1992,18 @@ namespace RectifyPad
 
         private void ShadowRect_Loaded(object sender, RoutedEventArgs e)
         {
-            shadow.Receivers.Add(DocTree);
+            if (sender is Microsoft.UI.Xaml.Controls.Border border && border.Shadow is Microsoft.UI.Xaml.Media.ThemeShadow themeShadow)
+            {
+                themeShadow.Receivers.Add(DocTree);
+            }
         }
 
         private void ShadowRectR_Loaded(object sender, RoutedEventArgs e)
         {
-            shadow.Receivers.Add(TextRuler);
+            if (sender is Microsoft.UI.Xaml.Controls.Border border && border.Shadow is Microsoft.UI.Xaml.Media.ThemeShadow themeShadow)
+            {
+                themeShadow.Receivers.Add(TextRuler);
+            }
         }
 
 
@@ -1986,6 +2014,9 @@ namespace RectifyPad
 
         private void Editor_KeyDown_1(object sender, KeyRoutedEventArgs e)
         {
+            // Track modifier keys
+            if (e.Key == VirtualKey.Control) _isControlPressed = true;
+            
             if (e.Key == VirtualKey.Tab)
             {
                 RichEditBox richEditBox = sender as RichEditBox;
@@ -1995,36 +2026,50 @@ namespace RectifyPad
                     e.Handled = true;
                 }
             }
-            else if (e.Key == VirtualKey.A && (Window.Current.CoreWindow.GetKeyState(VirtualKey.Control) & CoreVirtualKeyStates.Down) == CoreVirtualKeyStates.Down)
+            // Simplified keyboard checks using instance fields
+            else if (e.Key == VirtualKey.A && _isControlPressed)
             {
                 RichEditBox richEditBox = sender as RichEditBox;
                 if (richEditBox != null)
                 {
-                    Editor.Focus(FocusState.Programmatic);
-                    int lastPosition = Editor.Document.Selection.EndPosition;
-                    Editor.Document.Selection.SetRange(0, lastPosition);
+                    richEditBox.Focus(FocusState.Programmatic);
+                    int lastPosition = richEditBox.Document.Selection.EndPosition;
+                    richEditBox.Document.Selection.SetRange(0, lastPosition);
                     e.Handled = true;
                 }
             }
-            else if (e.Key == VirtualKey.Back && (Window.Current.CoreWindow.GetKeyState(VirtualKey.Control) & CoreVirtualKeyStates.Down) == CoreVirtualKeyStates.Down)
+            else if (e.Key == VirtualKey.Back && _isControlPressed)
             {
-                var selection = Editor.Document.Selection;
-                var startPos = selection.StartPosition;
-                int wordStart = FindWordStart(Editor, startPos);
-                selection.SetRange(wordStart, startPos);
-                selection.Delete(Windows.UI.Text.TextRangeUnit.Character, 1);
-                e.Handled = true;
+                RichEditBox richEditBox = sender as RichEditBox;
+                if (richEditBox != null)
+                {
+                    var selection = richEditBox.Document.Selection;
+                    var startPos = selection.StartPosition;
+                    int wordStart = FindWordStart(richEditBox, startPos);
+                    selection.SetRange(wordStart, startPos);
+                    selection.Delete(Microsoft.UI.Text.TextRangeUnit.Character, 1);
+                    e.Handled = true;
+                }
             }
-            else if (e.Key == VirtualKey.Delete && (Window.Current.CoreWindow.GetKeyState(VirtualKey.Control) & CoreVirtualKeyStates.Down) == CoreVirtualKeyStates.Down)
+            else if (e.Key == VirtualKey.Delete && _isControlPressed)
             {
-                var selection = Editor.Document.Selection;
-                var endPos = selection.EndPosition;
-                int wordEnd = FindWordEnd(Editor, endPos);
-                selection.SetRange(endPos, wordEnd);
-                selection.Delete(Windows.UI.Text.TextRangeUnit.Character, 1);
+                RichEditBox richEditBox = sender as RichEditBox;
+                if (richEditBox != null)
+                {
+                    var selection = richEditBox.Document.Selection;
+                    var endPos = selection.EndPosition;
+                    int wordEnd = FindWordEnd(richEditBox, endPos);
+                    selection.SetRange(endPos, wordEnd);
+                    selection.Delete(Microsoft.UI.Text.TextRangeUnit.Character, 1);
+                    e.Handled = true;
+                }
+            }
+        }
 
-                e.Handled = true;
-            }
+        private void Editor_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Control) _isControlPressed = false;
         }
     }
 }
+

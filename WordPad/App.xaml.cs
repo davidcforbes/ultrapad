@@ -75,12 +75,27 @@ namespace RectifyPad
 
 
         #region Error handling
-        private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e) => e.SetObserved();
+        private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            // Log the exception before marking it as observed
+            System.Diagnostics.Debug.WriteLine($"Unobserved Task Exception: {e.Exception}");
+            System.IO.File.AppendAllText("crash.log", $"{DateTime.Now}: Unobserved Task Exception: {e.Exception}\n");
+            e.SetObserved();
+        }
 
-        private static void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e) => e.Handled = true;
+        private static void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            // Log the exception before marking it as handled
+            System.Diagnostics.Debug.WriteLine($"Unhandled Exception: {e.Exception}");
+            System.IO.File.AppendAllText("crash.log", $"{DateTime.Now}: Unhandled Exception: {e.Exception}\n");
+            // Don't handle it - let it crash with visible error
+            e.Handled = false;
+        }
 
         private void CurrentDomain_FirstChanceException(object sender, FirstChanceExceptionEventArgs e)
         {
+            // Log first chance exceptions for debugging
+            System.Diagnostics.Debug.WriteLine($"First Chance Exception: {e.Exception}");
         }
         #endregion
     }

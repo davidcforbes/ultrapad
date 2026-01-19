@@ -10,7 +10,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage.Streams;
 using Windows.Storage;
 using Windows.System;
-using Windows.UI.Text;
+using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -18,6 +18,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using RectifyPad;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Storage.Pickers;
 using Windows.ApplicationModel.Core;
@@ -165,7 +166,7 @@ namespace WordPad.WordPadUI.Ribbon
                         using (var imageStream = await imageStreamRef.OpenReadAsync())
                         {
                             // Insert the object into the RichEditBox
-                            Editor.Document.Selection.InsertImage(200, 200, 0, VerticalCharacterAlignment.Baseline, "img", imageStream);
+                            Editor.Document.Selection.InsertImage(200, 200, 0, Microsoft.UI.Text.VerticalCharacterAlignment.Baseline, "img", imageStream);
 
                         }
                     }

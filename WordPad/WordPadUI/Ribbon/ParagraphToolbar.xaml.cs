@@ -13,7 +13,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
 using Windows.Storage;
-using Windows.UI.Text;
+using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -75,24 +75,18 @@ namespace WordPad.WordPadUI.Ribbon
             string linespacingval = (string)Windows.Storage.ApplicationData.Current.LocalSettings.Values["linespacing"];
             Debug.WriteLine("Detected Spacing: " + linespacingval);
 
-            float lineSpacingValue = 1.0f; // Default value
-
             switch (linespacingval)
             {
                 case "1.0":
-                    lineSpacingValue = 1.0f;
                     spacingradio1.IsChecked = true;
                     break;
                 case "1.15":
-                    lineSpacingValue = 1.15f;
                     spacingradio2.IsChecked = true;
                     break;
                 case "1.5":
-                    lineSpacingValue = 1.5f;
                     spacingradio3.IsChecked = true;
                     break;
                 case "2":
-                    lineSpacingValue = 2.0f;
                     spacingradio4.IsChecked = true;
                     break;
                 default:
@@ -101,30 +95,30 @@ namespace WordPad.WordPadUI.Ribbon
             float halal = (float)ConvertString2Float(linespacingval, typeof(float), null, null);
 
             // Get the current document from the RichEditBox
-            ITextDocument document = Editor.Document;
+            var document = Editor.Document;
 
             // Get the current selection from the document
-            ITextSelection selection = document.Selection;
+            var selection = document.Selection;
 
             // Get the paragraph format of the selection
-            ITextParagraphFormat paragraphFormat = selection.ParagraphFormat;
+            var paragraphFormat = selection.ParagraphFormat;
 
             // Set the line spacing rule to multiple
-            paragraphFormat.SetLineSpacing(LineSpacingRule.Multiple, halal);
+            paragraphFormat.SetLineSpacing(Microsoft.UI.Text.LineSpacingRule.Multiple, halal);
         }
 
         public string GetText(RichEditBox RichEditor)
         {
-            RichEditor.Document.GetText(TextGetOptions.FormatRtf, out string Text);
-            ITextRange Range = RichEditor.Document.GetRange(0, Text.Length);
-            Range.GetText(TextGetOptions.FormatRtf, out string Value);
+            RichEditor.Document.GetText(Microsoft.UI.Text.TextGetOptions.FormatRtf, out string Text);
+            var Range = RichEditor.Document.GetRange(0, Text.Length);
+            Range.GetText(Microsoft.UI.Text.TextGetOptions.FormatRtf, out string Value);
             return Value;
         }
 
         private void SetParagraphIndents(float leftIndent, float rightIndent, float firstLineIndent, bool applyToSelectionOnly = true)
         {
-            // Get the ITextDocument interface for the RichEditBox's document
-            ITextDocument document = Editor.Document;
+            // Get the document interface for the RichEditBox's document
+            var document = Editor.Document;
 
             // Get the current selection's start and end positions
             int start = document.Selection.StartPosition;
@@ -136,8 +130,8 @@ namespace WordPad.WordPadUI.Ribbon
                 //return;
             }
 
-            // Get the ITextRange interface for the selection or the entire document
-            ITextRange textRange;
+            // Get the text range for the selection or the entire document
+            Microsoft.UI.Text.ITextRange textRange;
             if (applyToSelectionOnly)
             {
                 textRange = document.Selection;
@@ -147,8 +141,8 @@ namespace WordPad.WordPadUI.Ribbon
                 textRange = document.GetRange(0, GetText(Editor).Length);
             }
 
-            // Get the ITextParagraphFormat interface for the text range
-            ITextParagraphFormat paragraphFormat = textRange.ParagraphFormat;
+            // Get the paragraph format for the text range
+            var paragraphFormat = textRange.ParagraphFormat;
 
             // Set the left and right indents for the current selection's paragraph(s)
             try

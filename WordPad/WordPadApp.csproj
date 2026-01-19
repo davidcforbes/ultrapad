@@ -1,16 +1,30 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>WordPad</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Platforms>x86;x64;ARM64</Platforms>
-    <PublishProfile>win-$(Platform).pubxml</PublishProfile>
+    <Platforms>x86;x64</Platforms>
+    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <ApplicationIcon>Assets\rpad16.png</ApplicationIcon>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <NoWarn>$(NoWarn);CA1416;NETSDK1138;NU1603</NoWarn>
+    <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
+    <WindowsPackageType>MSIX</WindowsPackageType>
+    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <WindowsSdkDir Condition="'$(WindowsSdkDir)' == ''">C:\Program Files (x86)\Windows Kits\10\</WindowsSdkDir>
+    <WindowsSdkVersion Condition="'$(WindowsSdkVersion)' == ''">10.0.26100.0</WindowsSdkVersion>
+    <WindowsSdkPackageVersion Condition="'$(WindowsSdkPackageVersion)' == ''">10.0.26100.38</WindowsSdkPackageVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)' == 'x64' and '$(MrmSupportLibraryPath)' == ''">
+    <MrmSupportLibraryPath>$(WindowsSdkDir)bin\$(WindowsSdkVersion)\x64\mrmsupport.dll</MrmSupportLibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)' == 'x86' and '$(MrmSupportLibraryPath)' == ''">
+    <MrmSupportLibraryPath>$(WindowsSdkDir)bin\$(WindowsSdkVersion)\x86\mrmsupport.dll</MrmSupportLibraryPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,25 +33,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.*" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.*" />
-    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.2.*" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.2" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7463" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.2.0" />
     <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="3.2.0" />
-    <!-- Fluent.Icons is UWP-only - using Segoe Fluent Icons font bundled in Assets instead -->
+    <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.19041.38" />
+    <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.19041.38" />
   </ItemGroup>
 
   <ItemGroup>
-    <Page Remove="MainPage.xaml" />
     <Page Remove="WordPadUI\prototyping.xaml" />
     <Compile Remove="WordPadUI\prototyping.xaml.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
   </ItemGroup>
 
   <ItemGroup>

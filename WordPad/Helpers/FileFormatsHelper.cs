@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
+﻿#nullable enable
+using DocumentFormat.OpenXml.Wordprocessing;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,17 +13,25 @@ namespace WordPad.Helpers
     {
         #region DOCX
 
-        private readonly Document _document;
+        // TODO: Initialize _document via constructor or parameter
+#pragma warning disable CS0649 // Field is never assigned to, and will always have its default value
+        private readonly Document? _document;
+#pragma warning restore CS0649
 
         public string ConvertToRtf()
         {
+            if (_document == null)
+            {
+                throw new InvalidOperationException("Document is not initialized");
+            }
+
             // First pass: collect all unique colors used in the document
             var uniqueColors = new HashSet<string>();
             foreach (var run in _document.Descendants<Run>())
             {
-                if (run.RunProperties?.Color != null)
+                if (run.RunProperties?.Color?.Val != null)
                 {
-                    uniqueColors.Add(run.RunProperties.Color.Val);
+                    uniqueColors.Add(run.RunProperties.Color.Val.Value!);
                 }
             }
 
@@ -69,19 +78,19 @@ namespace WordPad.Helpers
                 {
                     if (run.RunProperties != null)
                     {
-                        if (run.RunProperties.Bold != null && run.RunProperties.Bold.Val)
+                        if (run.RunProperties.Bold?.Val?.Value == true)
                         {
                             rtfWriter.Write("\\b ");
                         }
 
-                        if (run.RunProperties.Italic != null && run.RunProperties.Italic.Val)
+                        if (run.RunProperties.Italic?.Val?.Value == true)
                         {
                             rtfWriter.Write("\\i ");
                         }
 
-                        if (run.RunProperties.Color != null)
+                        if (run.RunProperties.Color?.Val != null)
                         {
-                            var colorHex = run.RunProperties.Color.Val;
+                            var colorHex = run.RunProperties.Color.Val.Value!;
                             if (colorIndexMap.TryGetValue(colorHex, out int index))
                             {
                                 rtfWriter.Write($"\\cf{index} ");
@@ -100,8 +109,8 @@ namespace WordPad.Helpers
                         rtfWriter.Write(text.Text);
                     }
 
-                    if (run.RunProperties != null && ((run.RunProperties.Bold != null && run.RunProperties.Bold.Val) ||
-                        (run.RunProperties.Italic != null && run.RunProperties.Italic.Val)))
+                    if (run.RunProperties != null && (run.RunProperties.Bold?.Val?.Value == true ||
+                        run.RunProperties.Italic?.Val?.Value == true))
                     {
                         rtfWriter.Write("\\b0\\i0 ");
                     }

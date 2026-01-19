@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using Windows.Storage.Streams;
 using Windows.Storage;
-using Windows.UI.Text;
+using Microsoft.UI.Text;
 using Microsoft.UI.Xaml.Controls;
 
 namespace WordPad.Helpers
@@ -146,8 +146,8 @@ namespace WordPad.Helpers
             // Clear the RichEditBox
             Editor.Document.SetText(TextSetOptions.None, "");
 
-            ITextDocument document = Editor.Document;
-            ITextSelection selection = document.Selection;
+            var document = Editor.Document;
+            var selection = document.Selection;
 
             foreach (XmlNode paragraph in paragraphs)
             {
@@ -216,8 +216,8 @@ namespace WordPad.Helpers
             // Start loading into RichEditBox
             Editor.Document.SetText(TextSetOptions.FormatRtf, "");
 
-            ITextDocument document = Editor.Document;
-            ITextSelection selection = document.Selection;
+            var document = Editor.Document;
+            var selection = document.Selection;
 
             foreach (XmlNode paragraph in paragraphs)
             {

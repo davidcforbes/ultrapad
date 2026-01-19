@@ -8,7 +8,8 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
-using Windows.UI.Text;
+using Windows.UI;
+using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -291,9 +292,9 @@ namespace WordPad.WordPadUI.Ribbon
         {
             // Extract the color of the button that was clicked.
             Button clickedColor = (Button)sender;
-            var borderone = (Windows.UI.Xaml.Controls.Border)clickedColor.Content;
-            var bordertwo = (Windows.UI.Xaml.Controls.Border)borderone.Child;
-            var rectangle = (Windows.UI.Xaml.Shapes.Rectangle)bordertwo.Child;
+            var borderone = (Microsoft.UI.Xaml.Controls.Border)clickedColor.Content;
+            var bordertwo = (Microsoft.UI.Xaml.Controls.Border)borderone.Child;
+            var rectangle = (Microsoft.UI.Xaml.Shapes.Rectangle)bordertwo.Child;
             var color = (rectangle.Fill as SolidColorBrush).Color;
             Editor.Document.Selection.CharacterFormat.ForegroundColor = color;
             FontColorMarker.SetValue(ForegroundProperty, new SolidColorBrush(color));
@@ -306,9 +307,9 @@ namespace WordPad.WordPadUI.Ribbon
         {
             // Extract the color of the button that was clicked.
             Button clickedColor = (Button)sender;
-            var borderone = (Windows.UI.Xaml.Controls.Border)clickedColor.Content;
-            var bordertwo = (Windows.UI.Xaml.Controls.Border)borderone.Child;
-            var rectangle = (Windows.UI.Xaml.Shapes.Rectangle)bordertwo.Child;
+            var borderone = (Microsoft.UI.Xaml.Controls.Border)clickedColor.Content;
+            var bordertwo = (Microsoft.UI.Xaml.Controls.Border)borderone.Child;
+            var rectangle = (Microsoft.UI.Xaml.Shapes.Rectangle)bordertwo.Child;
             var color = (rectangle.Fill as SolidColorBrush).Color;
             Editor.Document.Selection.CharacterFormat.BackgroundColor = color;
             BackTextColorMarker.SetValue(ForegroundProperty, new SolidColorBrush(color));
@@ -363,7 +364,7 @@ namespace WordPad.WordPadUI.Ribbon
         private void Autobutton_Checked(object sender, RoutedEventArgs e)
         {
             // Black is the default
-            Windows.UI.Color color = ActualTheme == ElementTheme.Light ? Windows.UI.Colors.Black : Windows.UI.Colors.White;
+            Windows.UI.Color color = ActualTheme == ElementTheme.Light ? Microsoft.UI.Colors.Black : Microsoft.UI.Colors.White;
             Editor.Document.Selection.CharacterFormat.ForegroundColor = color;
             FontTextColorDropDownButton.Flyout.Hide();
             Editor.Focus(FocusState.Programmatic);
@@ -390,7 +391,7 @@ namespace WordPad.WordPadUI.Ribbon
         private void NoColorButton_Click(object sender, RoutedEventArgs e)
         {
             // Transparent is the default
-            Windows.UI.Color color = Windows.UI.Colors.Transparent;
+            Windows.UI.Color color = Microsoft.UI.Colors.Transparent;
             Editor.Document.Selection.CharacterFormat.BackgroundColor = color;
             FontTextColorDropDownButton.Flyout.Hide();
             Editor.Focus(FocusState.Programmatic);

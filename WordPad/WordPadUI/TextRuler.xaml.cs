@@ -7,7 +7,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
-using Windows.UI.Text;
+using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -24,7 +24,6 @@ namespace WordPad.WordPadUI
     {
         public RichEditBox editor;
         public ScrollViewer editorScroll;
-        bool isTextSelectionChanging;
 
         public Slider ZoomSlider { get; private set; }
 
@@ -45,19 +44,22 @@ namespace WordPad.WordPadUI
             ZoomSlider.Value = editorScroll.ZoomFactor;
         }
 
-        private void TabIndent_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        private void TabIndent_ValueChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
-            if (isTextSelectionChanging == false) SetParagraphIndents((float)LeftInd.Value, (float)RightInd.Value, (float)TabIndent.Value, true);
+            SetParagraphIndents((float)LeftInd.Value, (float)RightInd.Value, (float)TabIndent.Value, true);
         }
 
         private void SetParagraphIndents(float leftIndent, float rightIndent, float firstLineIndent, bool applyToSelectionOnly = true)
         {
             // Get the ITextDocument interface for the RichEditBox's document
-            ITextDocument document = editor.Document;
+            var document = editor.Document;
 
+            // Get the current selection
+            var selection = document.Selection;
+            
             // Get the current selection's start and end positions
-            int start = document.Selection.StartPosition;
-            int end = document.Selection.EndPosition;
+            int start = selection.StartPosition;
+            int end = selection.EndPosition;
 
             // If applyToSelectionOnly is true, check if there's any selected text in the RichEditBox
             if (applyToSelectionOnly && start == end)
@@ -69,7 +71,7 @@ namespace WordPad.WordPadUI
             ITextRange textRange;
             if (applyToSelectionOnly)
             {
-                textRange = document.Selection;
+                textRange = selection;
             }
             else
             {
@@ -77,18 +79,18 @@ namespace WordPad.WordPadUI
             }
 
             // Get the ITextParagraphFormat interface for the text range
-            ITextParagraphFormat paragraphFormat = textRange.ParagraphFormat;
+            var paragraphFormat = textRange.ParagraphFormat;
 
             // Set the left and right indents for the current selection's paragraph(s)
             try
             {
-                if (document.Selection.Length != 0)
+                if (selection.Length != 0)
                 {
                     paragraphFormat.SetIndents(firstLineIndent, leftIndent, rightIndent);
                 }
                 else
                 {
-                    document.GetRange(document.Selection.StartPosition, document.Selection.EndPosition + 1);
+                    document.GetRange(selection.StartPosition, selection.EndPosition + 1);
                     paragraphFormat.SetIndents(firstLineIndent, leftIndent, rightIndent);
                 }
             }
@@ -104,14 +106,14 @@ namespace WordPad.WordPadUI
 
             // RightIndent.Text = rightIndent.ToString();
         }
-        private void LeftInd_ValueChanged(object Sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs EvArgs)
+        private void LeftInd_ValueChanged(object Sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs EvArgs)
         {
-            if (isTextSelectionChanging == false) SetParagraphIndents((float)LeftInd.Value, (float)RightInd.Value, (float)TabIndent.Value, true);
+            SetParagraphIndents((float)LeftInd.Value, (float)RightInd.Value, (float)TabIndent.Value, true);
         }
 
-        private void RightInd_ValueChanged(object Sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs EvArgs)
+        private void RightInd_ValueChanged(object Sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs EvArgs)
         {
-            if (isTextSelectionChanging == false) SetParagraphIndents((float)LeftInd.Value, (float)RightInd.Value, (float)TabIndent.Value, true);
+            SetParagraphIndents((float)LeftInd.Value, (float)RightInd.Value, (float)TabIndent.Value, true);
         }
 
         private void Border_Loaded(object sender, RoutedEventArgs e)

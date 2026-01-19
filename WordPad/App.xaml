@@ -78,8 +78,6 @@
                             <Style x:Key="MinEditStyle" TargetType="RichEditBox">
                                 <Setter Property="Foreground" Value="#E4000000" />
                                 <Setter Property="Background" Value="White" />
-                                <Setter Property="ContentLinkForegroundColor" Value="{ThemeResource ContentLinkForegroundColor}" />
-                                <Setter Property="ContentLinkBackgroundColor" Value="{ThemeResource ContentLinkBackgroundColor}" />
                                 <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}" />
                                 <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}" />
                                 <Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}" />
@@ -265,8 +263,6 @@
                             <Style x:Key="MinEditStyle" TargetType="RichEditBox">
                                 <Setter Property="Foreground" Value="#E4000000" />
                                 <Setter Property="Background" Value="White" />
-                                <Setter Property="ContentLinkForegroundColor" Value="{ThemeResource ContentLinkForegroundColor}" />
-                                <Setter Property="ContentLinkBackgroundColor" Value="{ThemeResource ContentLinkBackgroundColor}" />
                                 <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}" />
                                 <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}" />
                                 <Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}" />
@@ -1836,8 +1832,6 @@
                     <Style x:Key="MinEditStyleNeo" TargetType="RichEditBox">
                         <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}" />
                         <Setter Property="Background" Value="{ThemeResource EditorGridBack}" />
-                        <Setter Property="ContentLinkForegroundColor" Value="{ThemeResource ContentLinkForegroundColor}" />
-                        <Setter Property="ContentLinkBackgroundColor" Value="{ThemeResource ContentLinkBackgroundColor}" />
                         <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}" />
                         <Setter Property="BorderBrush" Value="{ThemeResource EditorGridBorder}" />
                         <Setter Property="BorderThickness" Value="1" />
