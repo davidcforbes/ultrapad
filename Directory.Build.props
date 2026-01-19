@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <VsInstallRoot Condition="'$(VsInstallRoot)' == ''">C:\Program Files\Microsoft Visual Studio\18\Insiders</VsInstallRoot>
+    <AppxMSBuildToolsPath Condition="'$(AppxMSBuildToolsPath)' == ''">$(VsInstallRoot)\MSBuild\Microsoft\VisualStudio\v18.0\AppxPackage\</AppxMSBuildToolsPath>
+    <MsPdbCmfExeFullpath Condition="'$(MsPdbCmfExeFullpath)' == ''">$(VsInstallRoot)\MSBuild\Microsoft\VisualStudio\v18.0\AppxPackage\x64\MsPdbCmf.exe</MsPdbCmfExeFullpath>
+  </PropertyGroup>
+</Project>
